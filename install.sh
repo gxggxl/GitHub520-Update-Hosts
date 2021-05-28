@@ -5,15 +5,18 @@
 # @File         : install.sh
 # @Time         : 2021/5/27 10:54
 # @Project Name : GitHub520-Update-Hosts
-# @Description  : scripts function describe
-# https://www.shellcheck.net
+# @Description  : GitHub520-Update-Hosts install
+# @shellcheck   : https://www.shellcheck.net
 
-me=0
-installationManual="root/GitHub520host"
-hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
 # 系统路径
-#sysPath="/etc"
-sysPath="."
+sysPath="/etc"
+installationManual="/root/GitHub520host"
+# 当前目录测试 0 是生产坏境
+debug=0
+# 资源URL
+hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
+mainshUrl="https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/main.sh"
+
 # 功能性函数：
 purple() { #基佬紫
   echo -e "\\033[35;1m${*}\\033[0m"
@@ -33,6 +36,14 @@ red() { #姨妈红
 blue() { #蓝色
   echo -e "\\033[34;1m${*}\\033[0m"
 }
+
+if ((debug == 1)); then
+  sysPath="."
+  installationManual="root/GitHub520host"
+else
+  sysPath=$sysPath
+  installationManual=$installationManual
+fi
 
 #检查账户权限
 function check_root() {
@@ -84,24 +95,44 @@ check_curl_installed_status() {
 
 # 安装
 function install() {
-  curl "$hostUrl" >>hosts
+  echo "正在写入hosts文件......"
+  curl "$hostUrl" >>$sysPath/hosts
+  green "hosts 文件理论写入成功！"
 
+  echo "正在创建 $installationManual 目录"
   mkdir -pv "$installationManual"
+  green "success"
+  echo "正在写入 更新脚本......"
+  curl "$mainshUrl" >$installationManual/main.sh
+  green "更新脚本 文件理论写入成功！"
 
-  cat <<EOF >>"$sysPath"/crontab
+  echo "正在添加 定时任务......"
+  cat <<EOF
 # GitHub520 Host Start
-0 */6 * * * root bash /root/GitHub520host/mian.sh
+0 */6 * * * root bash $installationManual/main.sh
 # GitHub520 Host End
 EOF
+  cat <<EOF >>"$sysPath"/crontab
+# GitHub520 Host Start
+0 */6 * * * root bash $installationManual/main.sh
+# GitHub520 Host End
+EOF
+  green "定时任务 理论添加成功！"
 }
 
 # 卸载
 function uninstall() {
   red "正在删除 hosts 文件..."
-  cat "$sysPath"/hosts | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host End/d' >tmpfile && mv tmpfile "$sysPath"/hosts
-  cat "$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# # GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
+  cat <"$sysPath"/hosts | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host End/d' >tmpfile && mv tmpfile "$sysPath"/hosts
+  green "hosts 文件 理论删除成功！"
+
+  echo "正在删除定时任务......"
+  cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# # GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
+  green "定时任务 理论删除成功！"
+
   red "正在删除 安装目录 ..."
   rm -rfv "$installationManual"
+  green "安装目录 理论删除成功！"
 }
 
 function menu() {
