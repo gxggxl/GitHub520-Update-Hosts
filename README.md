@@ -2,6 +2,8 @@
 
 linux 定时更新 hosts 文件
 
+任选一条
+
 ```bash
 sh -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/install.sh)"
 ```
