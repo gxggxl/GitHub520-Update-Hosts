@@ -47,7 +47,7 @@ fi
 
 #检查账户权限
 function check_root() {
-  if [ $UID -ne 0 ]; then
+  if [ $UID -eq 0 ]; then
     echo -e "当前用户是 ROOT 用户，可以继续操作" && sleep 1
   else
     echo -e "当前非 ROOT 账号(或没有 ROOT 权限)，无法继续操作，请更换 ROOT 账号或使用 su命令获取临时 ROOT 权限" && exit 1
