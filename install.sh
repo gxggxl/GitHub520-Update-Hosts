@@ -160,7 +160,7 @@ $(red " (2) 卸载服务")
 $(yellow " (3) 退出脚本")
 EOF
 
-  if ((me == 1)); then
+  if ((OptionText == 1)); then
     red "输入无效，请输入对应选项的数字："
   else
     echo "请输入对应选项的数字："
@@ -185,7 +185,7 @@ EOF
     exit
     ;;
   *)
-    me=1
+    OptionText=1
     menu
     ;;
   esac
