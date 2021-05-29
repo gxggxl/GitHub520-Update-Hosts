@@ -110,6 +110,7 @@ function install() {
     echo "正在写入 更新脚本......"
     cat <main.sh >$installationManual/main.sh
     green "更新脚本 文件理论写入成功！"
+    chmod +x $installationManual/main.sh
   else
     echo "正在创建 $installationManual 目录"
     mkdir -p "$installationManual"
@@ -117,6 +118,7 @@ function install() {
     echo "正在写入 更新脚本......"
     curl "$mainshUrl" >$installationManual/main.sh
     green "更新脚本 文件理论写入成功！"
+    chmod +x $installationManual/main.sh
   fi
 
   echo "正在添加 定时任务......"
