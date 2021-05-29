@@ -1,5 +1,7 @@
 .idea
 *.iml
+etc
+root
 out
 gen
 crontab

@@ -10,10 +10,11 @@
 
 # 系统路径
 sysPath="/etc"
-installationManual="/root/GitHub520host"
+installationManual="GitHub520host"
 # 当前目录测试 0 是生产坏境
 debug=0
 # 资源URL
+updateTime="2021-05-29"
 hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
 mainshUrl="https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/main.sh"
 
@@ -38,11 +39,15 @@ blue() { #蓝色
 }
 
 if ((debug == 1)); then
-  sysPath="."
-  installationManual="root/GitHub520host"
+  sysPath="./etc"
+  mkdir -p $sysPath
+  installationManual="./GitHub520host"
 else
-  sysPath=$sysPath
-  installationManual=$installationManual
+  check_root
+   wwww=$sysPath
+  sysPath=$wwww
+  sssss=$installationManual
+  installationManual=$sssss
 fi
 
 #检查账户权限
@@ -99,12 +104,21 @@ function install() {
   curl "$hostUrl" >>$sysPath/hosts
   green "hosts 文件理论写入成功！"
 
-  echo "正在创建 $installationManual 目录"
-  mkdir -pv "$installationManual"
-  green "success"
-  echo "正在写入 更新脚本......"
-  curl "$mainshUrl" >$installationManual/main.sh
-  green "更新脚本 文件理论写入成功！"
+  if ((debug == 1)); then
+    echo "正在创建 $installationManual 目录"
+    mkdir -p "$installationManual"
+    green "success"
+    echo "正在写入 更新脚本......"
+    cat <main.sh >$installationManual/main.sh
+    green "更新脚本 文件理论写入成功！"
+  else
+    echo "正在创建 $installationManual 目录"
+    mkdir -p "$installationManual"
+    green "success"
+    echo "正在写入 更新脚本......"
+    curl "$mainshUrl" >$installationManual/main.sh
+    green "更新脚本 文件理论写入成功！"
+  fi
 
   echo "正在添加 定时任务......"
   cat <<EOF
@@ -130,20 +144,21 @@ function uninstall() {
   cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# # GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
   green "定时任务 理论删除成功！"
 
-  red "正在删除 安装目录 ..."
+  red "正在删除 安装文件 ..."
   rm -rfv "$installationManual"
-  green "安装目录 理论删除成功！"
+  green "安装文件 理论删除成功！"
 }
 
 function menu() {
   cat <<EOF
 ----------------------------------------------
-|********   $(green "GitHub520-Update-Hosts")   ********|
+|*******    $(green "GitHub520-Update-Hosts")    *******|
 |*******  https://github.com/gxggxl/  *******|
+|*******  updateTime : $(echo -e $updateTime)     *******|
 ----------------------------------------------
-$(tyblue " 1)安装服务")
-$(red " 2)卸载服务")
-$(yellow " 3)退出")
+$(tyblue " (1) 安装服务")
+$(red " (2) 卸载服务")
+$(yellow " (3)退出脚本")
 EOF
 
   if ((me == 1)); then
@@ -157,6 +172,8 @@ EOF
   case $numa in
   1)
     echo "安装服务!"
+    check_sys
+    check_curl_installed_status
     install
     ;;
   2)
@@ -164,7 +181,7 @@ EOF
     uninstall
     ;;
   3)
-    clear
+    #    clear
     exit
     ;;
   *)
@@ -174,7 +191,4 @@ EOF
   esac
 }
 
-check_root
-check_sys
-check_curl_installed_status
 menu

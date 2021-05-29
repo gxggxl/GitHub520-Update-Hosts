@@ -14,9 +14,11 @@ sysPath="/etc"
 hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
 
 if ((debug == 1)); then
-  sysPath="."
+  sysPath="../etc"
+  mkdir -p $sysPath
 else
-  sysPath=$sysPath
+  wwww=$sysPath
+  sysPath=$wwww
 fi
 # 更新系统 hosts 文件
 function updateHost() {
