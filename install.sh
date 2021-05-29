@@ -43,8 +43,7 @@ if ((debug == 1)); then
   mkdir -p $sysPath
   installationManual="./GitHub520host"
 else
-  check_root
-   wwww=$sysPath
+  wwww=$sysPath
   sysPath=$wwww
   sssss=$installationManual
   installationManual=$sssss
@@ -158,7 +157,7 @@ function menu() {
 ----------------------------------------------
 $(tyblue " (1) 安装服务")
 $(red " (2) 卸载服务")
-$(yellow " (3)退出脚本")
+$(yellow " (3) 退出脚本")
 EOF
 
   if ((me == 1)); then
@@ -172,6 +171,7 @@ EOF
   case $numa in
   1)
     echo "安装服务!"
+    check_root
     check_sys
     check_curl_installed_status
     install
