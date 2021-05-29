@@ -142,7 +142,7 @@ function uninstall() {
   green "hosts 文件 理论删除成功！"
 
   echo "正在删除定时任务......"
-  cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# # GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
+  cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
   green "定时任务 理论删除成功！"
 
   red "正在删除 安装文件 ..."
@@ -173,7 +173,9 @@ EOF
   case $numa in
   1)
     echo "安装服务!"
-    check_root
+    if ((debug == 0)); then
+      check_root
+    fi
     check_sys
     check_curl_installed_status
     install
