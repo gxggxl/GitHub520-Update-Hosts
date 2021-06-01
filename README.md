@@ -1,6 +1,6 @@
 # GitHub520-Update-Hosts
 
-linux 定时更新 hosts 文件
+利用 crontab  定时更新 Linux 的 hosts 文件
 
 任选一条
 
