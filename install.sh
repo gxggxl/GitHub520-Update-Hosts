@@ -14,7 +14,7 @@ installationManual="GitHub520host"
 # 当前目录测试 0 是生产坏境
 debug=0
 # 资源URL
-updateTime="2021-05-29"
+updateTime="2021-06-01"
 hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
 mainshUrl="https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/main.sh"
 
@@ -99,15 +99,16 @@ check_curl_installed_status() {
 
 # 安装
 function install() {
-  echo "正在写入hosts文件......"
+  echo "正在写入 hosts 文件......"
   curl "$hostUrl" >>$sysPath/hosts
-  green "hosts 文件理论写入成功！"
+  green "hosts 文件 理论写入成功！"
 
   if ((debug == 1)); then
     echo "正在创建 $installationManual 目录"
     mkdir -p "$installationManual"
     green "success"
     echo "正在写入 更新脚本......"
+    # 本地文件
     cat <main.sh >$installationManual/main.sh
     green "更新脚本 文件理论写入成功！"
     chmod +x $installationManual/main.sh
@@ -121,7 +122,7 @@ function install() {
     chmod +x $installationManual/main.sh
   fi
 
-  echo "正在添加 定时任务......"
+  echo "正在添加 cron定时任务......"
   cat <<EOF
 # GitHub520 Host Start
 0 */6 * * * root bash $installationManual/main.sh
@@ -132,7 +133,7 @@ EOF
 0 */6 * * * root bash $installationManual/main.sh
 # GitHub520 Host End
 EOF
-  green "定时任务 理论添加成功！"
+  green "cron定时任务 理论添加成功！"
 }
 
 # 卸载
@@ -141,9 +142,9 @@ function uninstall() {
   cat <"$sysPath"/hosts | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host End/d' >tmpfile && mv tmpfile "$sysPath"/hosts
   green "hosts 文件 理论删除成功！"
 
-  echo "正在删除定时任务......"
+  echo "正在删除 cron定时任务......"
   cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
-  green "定时任务 理论删除成功！"
+  green "cron定时任务 理论删除成功！"
 
   red "正在删除 安装文件 ..."
   rm -rfv "$installationManual"
