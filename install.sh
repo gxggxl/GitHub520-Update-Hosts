@@ -10,7 +10,7 @@
 
 # 系统路径
 sysPath="/etc"
-installationManual="GitHub520host"
+installationManual="/root/GitHub520host"
 # 当前目录测试 0 是生产坏境
 debug=0
 # 资源URL
