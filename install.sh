@@ -125,12 +125,12 @@ function install() {
   echo "正在添加 cron定时任务......"
   cat <<EOF
 # GitHub520 Host Start
-0 */6 * * * root bash $installationManual/main.sh
+0 */6 * * * root bash $installationManual/main.sh > /dev/null 2>&1
 # GitHub520 Host End
 EOF
   cat <<EOF >>"$sysPath"/crontab
 # GitHub520 Host Start
-0 */6 * * * root bash $installationManual/main.sh
+0 */6 * * * root bash $installationManual/main.sh > /dev/null 2>&1
 # GitHub520 Host End
 EOF
   green "cron定时任务 理论添加成功！"
