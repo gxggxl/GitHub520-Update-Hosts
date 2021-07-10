@@ -97,6 +97,18 @@ check_curl_installed_status() {
   fi
 }
 
+# 重启 定时任务
+function restart_crontab() {
+  echo "尝试重启 定时任务服务"
+  if [[ ${release} == "centos" ]]; then
+    service crond restart
+  elif [[ ${release} == "macos" ]]; then
+    echo ""
+  else
+    /etc/init.d/cron restart
+  fi
+}
+
 # 安装
 function install() {
   echo "正在写入 hosts 文件......"
@@ -180,10 +192,12 @@ EOF
     check_sys
     check_curl_installed_status
     install
+    restart_crontab
     ;;
   2)
     echo "卸载服务!"
     uninstall
+    restart_crontab
     ;;
   3)
     #    clear

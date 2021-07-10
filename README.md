@@ -12,7 +12,7 @@ sh -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@ma
 wget https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/install.sh && chmod 700 install.sh && bash install.sh
 ```
 
-## 重启cron
+## 重启 定时任务(cron)
 
 ```bash
 #CentOS
