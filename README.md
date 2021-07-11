@@ -16,7 +16,7 @@ wget https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/install.sh
 
 ```bash
 #CentOS
-service crond start
+service crond restart
 
 #Debian
 /etc/init.d/cron restart
