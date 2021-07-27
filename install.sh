@@ -196,6 +196,7 @@ EOF
     ;;
   2)
     echo "卸载服务!"
+    check_sys
     uninstall
     restart_crontab
     ;;
