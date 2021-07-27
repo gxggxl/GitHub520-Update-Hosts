@@ -5,11 +5,11 @@
 任选一条
 
 ```bash
-sh -c "$(curl -fsSL https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/install.sh)"
+sh -c "$(curl -fsSL https://ghproxy.com/https://raw.githubusercontent.com/gxggxl/GitHub520-Update-Hosts/master/install.sh)"
 ```
 
 ```bash
-wget https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/install.sh && chmod 700 install.sh && bash install.sh
+wget https://ghproxy.com/https://raw.githubusercontent.com/gxggxl/GitHub520-Update-Hosts/master/install.sh && chmod 700 install.sh && bash install.sh
 ```
 
 ## 重启 定时任务(cron)
