@@ -14,7 +14,7 @@ installationManual="/root/GitHub520host"
 # 当前目录测试 0 是生产坏境
 debug=0
 # 资源URL
-updateTime="2021-06-01"
+updateTime="2021-07-27"
 hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
 mainshUrl="https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/main.sh"
 
@@ -99,14 +99,16 @@ check_curl_installed_status() {
 
 # 重启 定时任务
 function restart_crontab() {
-  echo "尝试重启 定时任务服务"
+  check_sys
+  red "尝试重启 定时任务服务"
   if [[ ${release} == "centos" ]]; then
     service crond restart
   elif [[ ${release} == "macos" ]]; then
-    echo "macos"
+    echo "======= macos，暂不支持 =========="
   else
     /etc/init.d/cron restart
   fi
+  green "请检查 crond 服务是否重启 "
 }
 
 # 安装
@@ -196,7 +198,6 @@ EOF
     ;;
   2)
     echo "卸载服务!"
-    check_sys
     uninstall
     restart_crontab
     ;;
