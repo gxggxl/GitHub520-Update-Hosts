@@ -103,7 +103,7 @@ function restart_crontab() {
   if [[ ${release} == "centos" ]]; then
     service crond restart
   elif [[ ${release} == "macos" ]]; then
-    echo ""
+    echo "macos"
   else
     /etc/init.d/cron restart
   fi
@@ -155,7 +155,7 @@ function uninstall() {
   green "hosts 文件 理论删除成功！"
 
   echo "正在删除 cron定时任务......"
-  cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host Start/d' >tmpfile && mv tmpfile "$sysPath"/crontab
+  cat <"$sysPath"/crontab | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host End/d' >tmpfile && mv tmpfile "$sysPath"/crontab
   green "cron定时任务 理论删除成功！"
 
   red "正在删除 安装文件 ..."
