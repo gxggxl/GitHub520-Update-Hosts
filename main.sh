@@ -25,7 +25,7 @@ function updateHost() {
   echo "正在删除旧的 GitHub520Host 文件......"
   cat <"$sysPath"/hosts | sed '/^# GitHub520 Host Start/,/^# GitHub520 Host End/d' >tmpfile && mv tmpfile "$sysPath"/hosts
   echo "正在下载新的 GitHub520Host 文件......"
-  curl "$hostUrl" >>"$sysPath"/hosts
+  curl -L "$hostUrl" >>"$sysPath"/hosts
   cat "$sysPath"/hosts
   echo "更新完成！！！！！！"
 }

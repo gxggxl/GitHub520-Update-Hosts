@@ -114,7 +114,7 @@ function restart_crontab() {
 # 安装
 function install() {
   echo "正在写入 hosts 文件......"
-  curl "$hostUrl" >>$sysPath/hosts
+  curl -L "$hostUrl" >>$sysPath/hosts
   green "hosts 文件 理论写入成功！"
 
   if ((debug == 1)); then
@@ -131,7 +131,7 @@ function install() {
     mkdir -p "$installationManual"
     green "success"
     echo "正在写入 更新脚本......"
-    curl "$mainshUrl" >$installationManual/main.sh
+    curl -L "$mainshUrl" >$installationManual/main.sh
     green "更新脚本 文件理论写入成功！"
     chmod +x $installationManual/main.sh
   fi
