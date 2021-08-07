@@ -178,12 +178,9 @@ $(yellow " (3) 退出脚本")
 EOF
 
   if ((OptionText == 1)); then
-    red "输入无效，请输入对应选项的数字："
-  else
-    echo "请输入对应选项的数字："
+    red "输入无效"
   fi
-
-  read -r numa
+  read -rep "请输入对应选项的数字：" numa
 
   case $numa in
   1)
