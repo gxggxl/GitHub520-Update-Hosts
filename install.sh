@@ -8,16 +8,22 @@
 # @Description  : GitHub520-Update-Hosts install
 # @shellcheck   : https://www.shellcheck.net
 
+updateTime="2021-12-11"
+# 当前目录测试为 1 (0 是生产坏境)
+Debug=0
 # 系统路径
 sysPath="/etc"
 installationManual="/root/GitHub520host"
-# 当前目录测试 0 是生产坏境
-debug=0
+# 由于github仓库拉取较慢，所以会默认添加代理前缀，如不需要请移除
+GithubProxyUrl="https://ghproxy.com/"
 # 资源URL
-updateTime="2021-07-27"
-hostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
-mainshUrl="https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/main.sh"
-
+HostUrl="https://cdn.jsdelivr.net/gh/521xueweihan/GitHub520@main/hosts"
+HostUrl="${GithubProxyUrl}https://raw.githubusercontent.com/521xueweihan/GitHub520/main/hosts"
+MainshUrl="https://cdn.jsdelivr.net/gh/gxggxl/GitHub520-Update-Hosts@master/main.sh"
+MainshUrl="${GithubProxyUrl}https://raw.githubusercontent.com/gxggxl/GitHub520-Update-Hosts/master/main.sh"
+#echo $HostUrl
+#curl -L $HostUrl
+#exit
 # 功能性函数：
 purple() { #基佬紫
   echo -e "\\033[35;1m${*}\\033[0m"
@@ -38,15 +44,12 @@ blue() { #蓝色
   echo -e "\\033[34;1m${*}\\033[0m"
 }
 
-if ((debug == 1)); then
+if ((Debug == 1)); then
   sysPath="./etc"
   mkdir -p $sysPath
   installationManual="./GitHub520host"
 else
-  wwww=$sysPath
-  sysPath=$wwww
-  sssss=$installationManual
-  installationManual=$sssss
+  echo -e "你的安装目录为：${installationManual}"
 fi
 
 #检查账户权限
@@ -114,10 +117,10 @@ function restart_crontab() {
 # 安装
 function install() {
   echo "正在写入 hosts 文件......"
-  curl -L "$hostUrl" >>$sysPath/hosts
+  curl -L "$HostUrl" >>$sysPath/hosts
   green "hosts 文件 理论写入成功！"
 
-  if ((debug == 1)); then
+  if ((Debug == 1)); then
     echo "正在创建 $installationManual 目录"
     mkdir -p "$installationManual"
     green "success"
@@ -131,7 +134,7 @@ function install() {
     mkdir -p "$installationManual"
     green "success"
     echo "正在写入 更新脚本......"
-    curl -L "$mainshUrl" >$installationManual/main.sh
+    curl -L "$MainshUrl" >$installationManual/main.sh
     green "更新脚本 文件理论写入成功！"
     chmod +x $installationManual/main.sh
   fi
@@ -185,7 +188,7 @@ EOF
   case $numa in
   1)
     echo "安装服务!"
-    if ((debug == 0)); then
+    if ((Debug == 0)); then
       check_root
     fi
     check_sys
