@@ -57,26 +57,23 @@ function check_root() {
   if [ $UID -eq 0 ]; then
     echo -e "当前用户是 ROOT 用户，可以继续操作" && sleep 1
   else
-    echo -e "当前非 ROOT 账号(或没有 ROOT 权限)，无法继续操作，请更换 ROOT 账号或使用 su命令获取临时 ROOT 权限" && exit 1
+    echo -e "当前非 ROOT 账号(或没有 ROOT 权限)，无法继续操作，请更换 ROOT 账号或使用 su ( sudo -i )命令获取临时 ROOT 权限" && exit 1
   fi
 }
 
 #检查系统
 function check_sys() {
   release=$(uname -a)
-  strX="当前的操作系统是"
   if [[ $release =~ "Darwin" ]]; then
-    echo "$strX MacOS"
     release="macos"
   elif [[ $release =~ "centos" ]]; then
-    echo "$strX centos"
     release="centos"
   elif [[ $release =~ "ubuntu" ]]; then
-    echo "$strX ubuntu"
     release="ubuntu"
   else
     echo "$release"
   fi
+  echo -e "您当前的操作系统是: ${release}"
 }
 
 # 检查 curl 依赖
@@ -111,7 +108,7 @@ function restart_crontab() {
   else
     /etc/init.d/cron restart
   fi
-  green "请检查 crond 服务是否重启 "
+  green "尝试重启定时任务服务完成"
 }
 
 # 安装
