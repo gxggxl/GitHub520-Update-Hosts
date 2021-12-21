@@ -20,9 +20,8 @@ HostUrl="${GithubProxyUrl}https://raw.githubusercontent.com/521xueweihan/GitHub5
 if ((Debug == 1)); then
   sysPath="../etc"
   mkdir -p $sysPath
-else
-  echo -e "你的系统目录为：${sysPath}"
 fi
+echo -e "你的系统目录为：${sysPath}"
 # 更新系统 hosts 文件
 function updateHost() {
   echo "正在删除旧的 GitHub520Host 文件......"

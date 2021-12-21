@@ -48,9 +48,8 @@ if ((Debug == 1)); then
   sysPath="./etc"
   mkdir -p $sysPath
   installationManual="./GitHub520host"
-else
-  echo -e "你的安装目录为：${installationManual}"
 fi
+echo -e "你的安装目录为：${installationManual}"
 
 #检查账户权限
 function check_root() {
